@@ -11,6 +11,12 @@ const SaveSegment = () => {
     }
   };
 
+  const onClickCloseSegment = () => {
+    if (modelRef.current) {
+      modelRef.current.close();
+    }
+  };
+
   return (
     <>
       <button
@@ -19,7 +25,7 @@ const SaveSegment = () => {
       >
         Save segment
       </button>
-      <SegmentModel ref={modelRef} />
+      <SegmentModel ref={modelRef} onClickCloseSegment={onClickCloseSegment} />
     </>
   );
 };

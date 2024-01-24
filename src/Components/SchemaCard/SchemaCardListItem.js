@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import AddNewSchema from "../AddNewSchema";
 import "./index.css";
 
 import { MdEdit } from "react-icons/md";
@@ -15,32 +14,34 @@ const SchemaCardListItem = (props) => {
     setEditedSchemaValue,
     setEditedSchemaLabel,
     onEditSchemaCardHanlder,
+    onDeleteSchema,
   } = props;
 
   const [editIconClicked, setEditButtonClicked] = useState(false);
-  const [editListItem, setEditListItem] = useState("");
-  const [deleteListItem, setDeleteListItem] = useState("");
+  const [editItem, setEditItem] = useState("");
 
   const onClickEditIcon = () => {
     setEditButtonClicked(true);
-    setEditListItem(Object.keys(eachSchema));
+    setEditItem(Object.keys(eachSchema)[0]);
   };
 
   const onClickDeleteIcon = () => {
-    setDeleteListItem(Object.keys(eachSchema));
+    onDeleteSchema(Object.keys(eachSchema));
   };
 
   const onClickSaveButtonHandler = (event) => {
     event.preventDefault();
-    onEditSchemaCardHanlder(event, editListItem);
+    onEditSchemaCardHanlder(event, editItem);
     setEditButtonClicked(false);
+    setEditedSchemaValue("");
+    setEditedSchemaLabel("");
   };
 
   return (
     <>
       {!editIconClicked ? (
         <li className="card-list-item">
-          <p>{Object.values(eachSchema)}</p>
+          <p>{Object.values(eachSchema)[0]}</p>
           <div className="icon-cont">
             <MdEdit className="edit-icon" onClick={onClickEditIcon} />
             <MdDelete className="delete-icon" onClick={onClickDeleteIcon} />
@@ -48,13 +49,7 @@ const SchemaCardListItem = (props) => {
         </li>
       ) : (
         <li className="card-list-item">
-          {/* <AddNewSchema
-            schemaValue={schemaValue}
-            setSchemaValue={setSchemaValue}
-            setSchemaLabel={setSchemaLabel}
-          /> */}
           <EditSchema
-            editListItem={editListItem}
             editedSchemaValue={editedSchemaValue}
             editedSchemaLabel={editedSchemaLabel}
             setEditedSchemaValue={setEditedSchemaValue}

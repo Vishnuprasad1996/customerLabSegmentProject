@@ -1,13 +1,8 @@
 import React from "react";
 
 const EditSchema = (props) => {
-  const {
-    editListItem,
-    editedSchemaValue,
-    editedSchemaLabel,
-    setEditedSchemaLabel,
-    setEditedSchemaValue,
-  } = props;
+  const { editedSchemaValue, setEditedSchemaLabel, setEditedSchemaValue } =
+    props;
 
   const onChangeSelectEditSchemaHandler = (event) => {
     const label = event.target.options[event.target.selectedIndex].label;
@@ -20,7 +15,7 @@ const EditSchema = (props) => {
     <div className="add-new-schema-cont">
       <select
         onChange={onChangeSelectEditSchemaHandler}
-        value={editedSchemaValue ? editedSchemaValue : editListItem}
+        value={editedSchemaValue}
         className="edit-box"
       >
         <option value="" disabled>

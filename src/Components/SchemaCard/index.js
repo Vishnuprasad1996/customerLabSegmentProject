@@ -11,6 +11,7 @@ const SchemaCard = (props) => {
     setEditedSchemaValue,
     setEditedSchemaLabel,
     onEditSchemaCardHanlder,
+    onDeleteSchema,
   } = props;
 
   return (
@@ -25,6 +26,7 @@ const SchemaCard = (props) => {
             setEditedSchemaValue={setEditedSchemaValue}
             setEditedSchemaLabel={setEditedSchemaLabel}
             onEditSchemaCardHanlder={onEditSchemaCardHanlder}
+            onDeleteSchema={onDeleteSchema}
           />
         ))}
       </ul>

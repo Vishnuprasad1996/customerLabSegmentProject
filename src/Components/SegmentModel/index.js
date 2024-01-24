@@ -4,6 +4,8 @@ import AddNewSchema from "../AddNewSchema";
 import SchemaCard from "../SchemaCard";
 
 const SegmentModel = forwardRef(function SegmentModel(props, ref) {
+  const { onClickCloseSegment } = props;
+
   const [segmentName, setSegmentName] = useState("");
   const [schemaValue, setSchemaValue] = useState("");
   const [schemaLabel, setSchemaLabel] = useState("");
@@ -16,27 +18,28 @@ const SegmentModel = forwardRef(function SegmentModel(props, ref) {
     setSegmentName(event.target.value);
   };
 
+  const onDeleteSchema = (deleteItem) => {
+    console.log(...deleteItem);
+    const filteredItems = selectedSchemas.filter(
+      (eachItem) => !(Object.keys(eachItem)[0] === deleteItem[0])
+    );
+    setSelectedSchemas(filteredItems);
+    console.log(filteredItems);
+  };
+
   const onEditSchemaCardHanlder = (event, editListItem) => {
     event.preventDefault();
-    // console.log(selectedSchemas, "selectedSchemas");
 
-    selectedSchemas.map((eachItem) => {
-      if (Object.keys(eachItem) === editListItem) {
-        console.log(Object.keys(eachItem), "same");
-      } else {
-        console.log(Object.keys(eachItem), editListItem, "same");
-      }
-    });
-
-    // setSelectedSchemas((prevState) => {
-    //   prevState.map((eachItem) => {
-    //     if (Object.keys(eachItem) === editListItem) {
-    //       return { ...eachItem, [editedSchemaValue]: editedSchemaLabel };
-    //     } else {
-    //       return eachItem;
-    //     }
-    //   });
-    // });
+    setSelectedSchemas((prevState) =>
+      prevState.map((eachItem) => {
+        if (Object.keys(eachItem)[0] === editListItem) {
+          return { [editedSchemaValue]: editedSchemaLabel };
+        } else {
+          return eachItem;
+        }
+      })
+    );
+    console.log(selectedSchemas);
   };
 
   const onClickAddNewSchemaHandler = (event) => {
@@ -53,7 +56,7 @@ const SegmentModel = forwardRef(function SegmentModel(props, ref) {
   };
 
   const sendDataToWebHook = async () => {
-    const serverUrl =
+    const webHookUrl =
       "https://webhook.site/ad0396e2-0c2e-49b2-806a-4551cc34da03";
 
     const data = {
@@ -70,7 +73,7 @@ const SegmentModel = forwardRef(function SegmentModel(props, ref) {
     };
 
     try {
-      const response = await fetch(serverUrl, options);
+      const response = await fetch(webHookUrl, options);
 
       if (response.ok) {
         console.log("Data send successfully");
@@ -89,7 +92,17 @@ const SegmentModel = forwardRef(function SegmentModel(props, ref) {
   const saveTheSegmentHandler = (event) => {
     event.preventDefault();
 
+    if (segmentName === "" && selectedSchemas.length === 0) return;
+
     sendDataToWebHook();
+    onClickCloseSegment();
+    setSegmentName("");
+    setSelectedSchemas([]);
+  };
+
+  const cancelTheSegmentHandler = (event) => {
+    event.preventDefault();
+    onClickCloseSegment();
   };
 
   return (
@@ -97,7 +110,7 @@ const SegmentModel = forwardRef(function SegmentModel(props, ref) {
       <header className="segment-header">
         <h1 className="segment-heading">Saving Segment</h1>
       </header>
-      <form>
+      <form onSubmit={saveTheSegmentHandler}>
         <div className="container">
           <label className="labels" htmlFor="segment_name">
             Enter the name of the Segment
@@ -120,6 +133,7 @@ const SegmentModel = forwardRef(function SegmentModel(props, ref) {
           setEditedSchemaValue={setEditedSchemaValue}
           setEditedSchemaLabel={setEditedSchemaLabel}
           onEditSchemaCardHanlder={onEditSchemaCardHanlder}
+          onDeleteSchema={onDeleteSchema}
         />
         <AddNewSchema
           schemaValue={schemaValue}
@@ -133,10 +147,12 @@ const SegmentModel = forwardRef(function SegmentModel(props, ref) {
           +Add new schema
         </button>
         <div>
-          <button onClick={saveTheSegmentHandler} className="save-button">
+          <button type="submit" className="save-button">
             Save the Segment
           </button>
-          <button className="cancel-button">Cancel</button>
+          <button onClick={cancelTheSegmentHandler} className="cancel-button">
+            Cancel
+          </button>
         </div>
       </form>
     </dialog>
