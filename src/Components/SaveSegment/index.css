@@ -1,0 +1,29 @@
+.save-segment-button {
+  background-color: transparent;
+  border: 5px solid #282c34;
+  padding: 10px;
+  color: #282c34;
+  font-size: 30px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  cursor: pointer;
+  width: 250px;
+  position: relative;
+  top: 100px;
+  left: 100px;
+}
+
+.save-segment-button:hover {
+  border: 5px solid rgb(107, 91, 91);
+  color: rgb(107, 91, 91);
+}
+
+dialog {
+  background-color: beige;
+  border-radius: 10px;
+  border: 1px solid beige;
+  width: 800px;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
